@@ -59,13 +59,15 @@ public class SQLDB extends GlobalValue{
             }
         }
     }
+
+    // 执行数据库数据插入操作 SQL
     private ArrayList<DCB> executeSQLQuery(String SQL) {
         ArrayList<DCB> dataBack = new ArrayList<>();
         try {
             Class.forName(JDBC_DRIVER); // 注册 JDBC 驱动
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS); // 建立数据库链接
             stmt = conn.createStatement(); // 实例化 Statement 对象
-            // 执行传入 SQL 命令（仅 INSERT 命令）
+            // 执行传入 SQL 命令（仅 SELECT 命令）
             ResultSet rs = stmt.executeQuery(SQL);
             // 展开结果集数据库
             while(rs.next()){
@@ -102,7 +104,7 @@ public class SQLDB extends GlobalValue{
     // 创建数据表方法
     public void creatDataTable(String TABLE_NAME) {
         String SQL =
-            "DROP TABLE IF NOT EXISTS `" + TABLE_NAME + "`("
+            "CREATE TABLE IF NOT EXISTS `" + TABLE_NAME + "`("
                 + "`" + DB_PREFIX + "id` INT UNSIGNED AUTO_INCREMENT,"
                 + "`" + DB_PREFIX + "title` VARCHAR(40) NOT NULL DEFAULT '' COMMENT '账号用途',"
                 + "`" + DB_PREFIX + "account` VARCHAR(40) NOT NULL DEFAULT '' COMMENT '账号',"
