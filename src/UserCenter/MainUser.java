@@ -2,11 +2,6 @@ package UserCenter;
 
 import DataControl.*;
 
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-
 public class MainUser {
     static String TABLE_NAME = "mainUser";
 
@@ -16,6 +11,7 @@ public class MainUser {
                 "CREATE TABLE IF NOT EXISTS `" + GlobalValue.DB_PREFIX + TABLE_NAME + "`("
                     + "`username` VARCHAR(40) NOT NULL DEFAULT '' COMMENT '账号',"
                     + "`password` VARCHAR(40) NOT NULL DEFAULT '' COMMENT '密码',"
+                    + "`recover` VARCHAR(160) NOT NULL DEFAULT '' COMMENT '恢复码',"
                     + "PRIMARY KEY(`account`)"
                     + ")ENGINE=InnoDB DEFAULT CHARSET=utf8;";
         db.executeSQLUpdate(SQL);
@@ -34,7 +30,6 @@ public class MainUser {
 
     public boolean loginMainUser(String userName, String passWord) {
         Encryption ep = new Encryption();
-
         SQLDB db = new SQLDB();
         String target = "password";
         String SQL =
@@ -48,10 +43,5 @@ public class MainUser {
             return true;
         } else return false;
     }
-
-
-
-
-
 
 }

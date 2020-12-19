@@ -38,7 +38,7 @@ public class Encryption {
         String codeString = null;
         try{
             Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
-            cipher.init(Cipher.ENCRYPT_MODE, GlobalValue.ENCRYPTION_KEY);
+            cipher.init(Cipher.ENCRYPT_MODE, KEY);
             byte[] result = cipher.doFinal(str.getBytes());
             codeString = Hex.encodeHexString(result);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException | InvalidKeyException e) {
