@@ -60,7 +60,7 @@ public class SQLDB{
         }
     }
 
-    // 执行数据库数据插入操作 SQL
+    // 执行数据库数据读取操作 SQL
     public ArrayList<DCB> executeSQLQuery(String SQL) {
         ArrayList<DCB> dataBack = new ArrayList<>();
         try {
@@ -129,5 +129,42 @@ public class SQLDB{
     public void deleteData(String TABLE_NAME, DCB []data) {
 
     }
+
+    // 执行数据库数据读取操作 SQL
+    public String executeSQLQuerySingleData(String SQL, String targetLabel) {
+        String dataBack = null;
+        try {
+            Class.forName(GlobalValue.JDBC_DRIVER); // 注册 JDBC 驱动
+            conn = DriverManager.getConnection(GlobalValue.DB_URL, GlobalValue.DB_USER, GlobalValue.DB_PASS); // 建立数据库链接
+            stmt = conn.createStatement(); // 实例化 Statement 对象
+            // 执行传入 SQL 命令（仅 SELECT 命令）
+            ResultSet rs = stmt.executeQuery(SQL);
+            // 展开结果集数据库
+            while(rs.next())
+            {
+                dataBack = rs.getString(targetLabel);
+            }
+            // 完成后关闭
+            stmt.close();
+            conn.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            // 处理 JDBC 及 Class.forName 错误
+            e.printStackTrace();
+        } finally {
+            // 结束处理：关闭资源（状态字、链接字）
+            try {
+                if (stmt != null) stmt.close();
+            } catch (SQLException ignored) {
+            }
+            try {
+                if (conn != null) conn.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+        return dataBack;
+    }
+
+
 
 }
