@@ -2,6 +2,9 @@ package UserCenter;
 
 import DataControl.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class MainUser {
     static String TABLE_NAME = "mainUser";
 
@@ -12,7 +15,7 @@ public class MainUser {
                     + "`username` VARCHAR(40) NOT NULL DEFAULT '' COMMENT '账号',"
                     + "`password` VARCHAR(40) NOT NULL DEFAULT '' COMMENT '密码',"
                     + "`recover` VARCHAR(160) NOT NULL DEFAULT '' COMMENT '恢复码',"
-                    + "PRIMARY KEY(`account`)"
+                    + "PRIMARY KEY(`username`)"
                     + ")ENGINE=InnoDB DEFAULT CHARSET=utf8;";
         db.executeSQLUpdate(SQL);
     }
@@ -42,6 +45,14 @@ public class MainUser {
             GlobalValue.USER_NAME = userName;
             return true;
         } else return false;
+    }
+
+    public String generateRecoverCode(){
+        Encryption ep = new Encryption();
+        Date time = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String DateKey = sdf.format(time);
+        return ep.encodeSHA512Hex(DateKey);
     }
 
 }

@@ -6,37 +6,61 @@ import java.util.ArrayList;
 
 public class SQLDB{
 
+    // MySQL 数据库操作域
+    public static String DB_URL;
+    public static String DB_MAIN_URL;
+    public static String DB_NAME = "pwmaster";
+    public static String DB_PREFIX = GlobalValue.DB_PREFIX;
+
+    // MySQL 数据库账号密码
+    static String DB_USER;
+    static String DB_PASS;
+
+    // JDBC 驱动名及数据库 URL
+    static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+    static final String URL_HEADER = "jdbc:mysql://";
+    static final String URL_SETTING = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+
     // 链接字及状态字
     private Connection conn = null;
     private Statement stmt = null;
 
+    public static void initURL(){
+        DB_URL = URL_HEADER + DB_MAIN_URL + "/" +DB_NAME + URL_SETTING;
+    }
+
 
     // 初始化本地数据库（默认本地：localhost -port 3306）
     public void initLocalDB(String user, String pw) {
-        GlobalValue.DB_MAIN_URL = "localhost:3306";
-        GlobalValue.DB_USER = user;
-        GlobalValue.DB_PASS = pw;
+        DB_MAIN_URL = "localhost:3306";
+        DB_USER = user;
+        DB_PASS = pw;
+        initURL();
     }
 
     // 初始化本地数据库
     public void initLocalDB(String user, String pw, String url) {
-        GlobalValue.DB_MAIN_URL = url;
-        GlobalValue.DB_USER = user;
-        GlobalValue.DB_PASS = pw;
+        DB_MAIN_URL = url;
+        DB_USER = user;
+        DB_PASS = pw;
+        initURL();
     }
 
     // 初始化远程数据库
     public void initOnlineDB(String user, String pw, String URL) {
-        GlobalValue.DB_MAIN_URL = URL;
-        GlobalValue.DB_USER = user;
-        GlobalValue.DB_PASS = pw;
+        DB_MAIN_URL = URL;
+        DB_USER = user;
+        DB_PASS = pw;
+        initURL();
     }
+
+
 
     // 执行数据库更新操作 SQL
     public void executeSQLUpdate(String SQL) {
         try {
-            Class.forName(GlobalValue.JDBC_DRIVER); // 注册 JDBC 驱动
-            conn = DriverManager.getConnection(GlobalValue.DB_URL, GlobalValue.DB_USER, GlobalValue.DB_PASS); // 建立数据库链接
+            Class.forName(JDBC_DRIVER); // 注册 JDBC 驱动
+            conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS); // 建立数据库链接
             stmt = conn.createStatement(); // 实例化 Statement 对象
             // 执行传入 SQL 命令
             stmt.executeUpdate(SQL);
@@ -64,8 +88,8 @@ public class SQLDB{
     public ArrayList<DCB> executeSQLQuery(String SQL) {
         ArrayList<DCB> dataBack = new ArrayList<>();
         try {
-            Class.forName(GlobalValue.JDBC_DRIVER); // 注册 JDBC 驱动
-            conn = DriverManager.getConnection(GlobalValue.DB_URL, GlobalValue.DB_USER, GlobalValue.DB_PASS); // 建立数据库链接
+            Class.forName(JDBC_DRIVER); // 注册 JDBC 驱动
+            conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS); // 建立数据库链接
             stmt = conn.createStatement(); // 实例化 Statement 对象
             // 执行传入 SQL 命令（仅 SELECT 命令）
             ResultSet rs = stmt.executeQuery(SQL);
@@ -104,7 +128,7 @@ public class SQLDB{
     // 创建 账号数据 数据表方法
     public void creatAccountDataTable(String TABLE_NAME) {
         String SQL =
-            "CREATE TABLE IF NOT EXISTS `" + GlobalValue.DB_PREFIX + TABLE_NAME + "`("
+            "CREATE TABLE IF NOT EXISTS `" + DB_PREFIX + TABLE_NAME + "`("
                 + "`id` INT UNSIGNED AUTO_INCREMENT,"
                 + "`title` VARCHAR(40) NOT NULL DEFAULT '' COMMENT '账号用途',"
                 + "`account` VARCHAR(40) NOT NULL DEFAULT '' COMMENT '账号',"
@@ -118,7 +142,7 @@ public class SQLDB{
     // 删除数据表方法
     public void dropDataTable(String TABLE_NAME) {
         String SQL =
-            "DROP TABLE IF NOT EXISTS `" + GlobalValue.DB_PREFIX + TABLE_NAME +"`;";
+            "DROP TABLE IF NOT EXISTS `" + DB_PREFIX + TABLE_NAME +"`;";
         executeSQLUpdate(SQL);
     }
 
@@ -134,8 +158,8 @@ public class SQLDB{
     public String executeSQLQuerySingleData(String SQL, String targetLabel) {
         String dataBack = null;
         try {
-            Class.forName(GlobalValue.JDBC_DRIVER); // 注册 JDBC 驱动
-            conn = DriverManager.getConnection(GlobalValue.DB_URL, GlobalValue.DB_USER, GlobalValue.DB_PASS); // 建立数据库链接
+            Class.forName(JDBC_DRIVER); // 注册 JDBC 驱动
+            conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS); // 建立数据库链接
             stmt = conn.createStatement(); // 实例化 Statement 对象
             // 执行传入 SQL 命令（仅 SELECT 命令）
             ResultSet rs = stmt.executeQuery(SQL);

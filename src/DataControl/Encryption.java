@@ -8,8 +8,10 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.codec.digest.DigestUtils;
 
 public class Encryption {
+
     // 密钥生成方案
     public void generateKey() {
         try {
@@ -32,11 +34,12 @@ public class Encryption {
         }
     }
 
+    // DES 加密
     public String codeDES(String str) {
         // 加密
         Key KEY = GlobalValue.ENCRYPTION_KEY;
         String codeString = null;
-        try{
+        try {
             Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, KEY);
             byte[] result = cipher.doFinal(str.getBytes());
@@ -48,10 +51,11 @@ public class Encryption {
         return codeString;
     }
 
+    // DES 解密
     public String decodeDES(String str) {
         Key KEY = GlobalValue.ENCRYPTION_KEY;
         String decodeString = null;
-        try{
+        try {
             // 解密
             Cipher cpr = Cipher.getInstance("DES/ECB/PKCS5Padding");
             cpr.init(Cipher.DECRYPT_MODE, KEY);
@@ -63,4 +67,10 @@ public class Encryption {
         }
         return decodeString;
     }
+
+    // SHA512Hex 消息摘要
+    public String encodeSHA512Hex(String data) {
+        return DigestUtils.sha512Hex(data);
+    }
+
 }
