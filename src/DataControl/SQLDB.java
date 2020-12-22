@@ -29,7 +29,6 @@ public class SQLDB{
         DB_URL = URL_HEADER + DB_MAIN_URL + "/" +DB_NAME + URL_SETTING;
     }
 
-
     // 初始化本地数据库（默认本地：localhost -port 3306）
     public void initLocalDB(String user, String pw) {
         DB_MAIN_URL = "localhost:3306";
@@ -53,8 +52,6 @@ public class SQLDB{
         DB_PASS = pw;
         initURL();
     }
-
-
 
     // 执行数据库更新操作 SQL
     public void executeSQLUpdate(String SQL) {
@@ -134,7 +131,7 @@ public class SQLDB{
                 + "`account` VARCHAR(40) NOT NULL DEFAULT '' COMMENT '账号',"
                 + "`password` VARCHAR(40) NOT NULL DEFAULT '' COMMENT '密码',"
                 + "`mark` VARCHAR(120) DEFAULT '' COMMENT '备注',"
-                + "PRIMARY KEY(`account`)"
+                + "PRIMARY KEY(`id`)"
                 + ")ENGINE=InnoDB DEFAULT CHARSET=utf8;";
         executeSQLUpdate(SQL);
     }
@@ -142,20 +139,27 @@ public class SQLDB{
     // 删除数据表方法
     public void dropDataTable(String TABLE_NAME) {
         String SQL =
-            "DROP TABLE IF NOT EXISTS `" + DB_PREFIX + TABLE_NAME +"`;";
+            "DROP TABLE IF EXISTS `" + DB_PREFIX + TABLE_NAME +"`;";
         executeSQLUpdate(SQL);
     }
 
     // 插入数据方法
-    public void insertData(String TABLE_NAME, DCB []data) {
-
+    public void insertData(String TABLE_NAME, DCB data) {
+        String SQL =
+                "INSERT INTO `" + DB_PREFIX + TABLE_NAME + "`"
+                    + "( title, account, password, mark) VALUES"
+                    + "('" + data.getTitle() + "','" + data.getAccount() + "','"
+                    + data.getPassword() + "','" + data.getMark() + "');";
+        executeSQLUpdate(SQL);
     }
-    public void deleteData(String TABLE_NAME, DCB []data) {
+
+    // 删除数据方法
+    public void deleteData(String TABLE_NAME, DCB data) {
 
     }
 
     // 执行数据库数据读取操作 SQL
-    public String executeSQLQuerySingleData(String SQL, String targetLabel) {
+    public String executeSQLQuerySingleSQL(String SQL, String targetLabel) {
         String dataBack = null;
         try {
             Class.forName(JDBC_DRIVER); // 注册 JDBC 驱动
@@ -188,7 +192,4 @@ public class SQLDB{
         }
         return dataBack;
     }
-
-
-
 }
