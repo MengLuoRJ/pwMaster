@@ -8,23 +8,20 @@ public class pwMaster {
 
         // SQL init
         SQLDB sql = new SQLDB();
-        sql.initOnlineDB("pw_master","pwMaster2020","pwmaster.aiur.tech");
+        sql.initOnlineDB("pw_master","pwMaster2020","mysql.aiur.tech");
 
         // DB test
         DBtest dbt = new DBtest();
         dbt.executeSQLTest();
 
+        sql.creatAccountDataTable("1");
+        DCB data = new DCB("Baidu","www666","w6666","百度账号");
+        sql.insertData("1",data);
+        //sql.dropDataTable("1");
         // Main User service
-         MainUser mUser = new MainUser();
-        // mUser.creatMainUserDataTable();
+        MainUser mUser = new MainUser();
+        mUser.creatMainUserDataTable();
 
-        try{
-            System.out.println(mUser.generateRecoverCode());
-            System.out.println(mUser.generateRecoverCode());
-            System.out.println(mUser.generateRecoverCode());
-            System.out.println(mUser.generateRecoverCode());
-
-        } catch (Exception ignored) {}
 
     }
 }
