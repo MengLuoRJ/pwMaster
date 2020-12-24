@@ -1,5 +1,4 @@
-package DataControl;
-
+package UserCenter;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -15,9 +14,9 @@ public class RecoverFile {
         if(recoverKey==null) return;
         File fl = new File("RecoverKey.txt");
         boolean status = fl.createNewFile();
-        if(status){
-            FileWriter writer = new FileWriter(fl);
-            writer.write(recoverKey);
-        }
+        FileWriter writer = new FileWriter(fl);
+        if(status){ writer.write(recoverKey); }
+        writer.flush();
+        writer.close();
     }
 }

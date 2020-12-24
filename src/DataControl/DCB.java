@@ -2,6 +2,7 @@
 package DataControl;
 
 public class DCB {
+    private String table; // 表单名
     private String title; // 标题或用途
     private String account; // 账号
     private String password; // 密码
@@ -9,11 +10,20 @@ public class DCB {
 
     public DCB() { }
 
-    public DCB(String title, String account, String password, String mark) {
+    public DCB(String table, String title, String account, String password, String mark) {
+        this.table = table;
         this.title = title;
         this.account = account;
         this.password = password;
         this.mark = mark;
+    }
+
+    public String getTable() {
+        return table;
+    }
+
+    public void setTable(String table) {
+        this.table = table;
     }
 
     public String getTitle() {

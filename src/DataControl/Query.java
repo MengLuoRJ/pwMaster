@@ -1,0 +1,51 @@
+package DataControl;
+
+import java.util.ArrayList;
+
+public class Query extends SQLDB{
+
+    public void newTable(String TABLE_NAME) {
+        newTableIntoMap(TABLE_NAME);
+    }
+
+    public void addAccount(DCB data) {
+        insertData(getIDByMap(data.getTable()), data);
+    }
+
+    public void deleteAccount(String TABLE_NAME, String title) {
+        deleteData(getIDByMap(TABLE_NAME), title);
+    }
+
+    public void updateAccount(DCB data) {
+        updateData(getIDByMap(data.getTable()), data);
+    }
+
+    public ArrayList<DCB> queryAccount(String TABLE_NAME, String target) {
+        return queryData(getIDByMap(TABLE_NAME), target);
+    }
+
+    public ArrayList<DCB> listAccount(String TABLE_NAME) {
+        return queryWholeTable(getIDByMap(TABLE_NAME));
+    }
+
+    public ArrayList<TCB> listTable() {
+        return queryWholeMap();
+    }
+
+    public void initGlobalTable(String sfName, String version) {
+        createGlobalTable();
+        newVersionIntoGlobal(sfName, version);
+    }
+
+    public void resetAll() {
+        ArrayList<TCB> tableTarget = listTable();
+        for (TCB tcb : tableTarget) {
+            dropDataTable(Integer.toString(tcb.getID()));
+        }
+        dropDataTable("Admin");
+        dropDataTable("Global");
+        GlobalValue.INITIALIZATION = false;
+        GlobalValue.USER_LOGGED = false;
+    }
+
+}

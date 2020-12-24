@@ -14,21 +14,20 @@ public class MainUser {
         String SQL =
                 "CREATE TABLE IF NOT EXISTS `" + GlobalValue.DB_PREFIX + TABLE_NAME + "`("
                     + "`username` VARCHAR(40) NOT NULL DEFAULT '' COMMENT '账号',"
-                    + "`password` VARCHAR(40) NOT NULL DEFAULT '' COMMENT '密码',"
-                    + "`recover` VARCHAR(160) NOT NULL DEFAULT '' COMMENT '恢复码',"
+                    + "`password` VARCHAR(256) NOT NULL DEFAULT '' COMMENT '密码',"
+                    + "`recover` VARCHAR(128) NOT NULL DEFAULT '' COMMENT '恢复码',"
                     + "PRIMARY KEY(`username`)"
                     + ")ENGINE=InnoDB DEFAULT CHARSET=utf8;";
         db.executeSQLUpdate(SQL);
     }
 
-    public void initMainUser(String userName, String passWord, String dataKey) {
+    public void initMainUser(String userName, String passWord, String dateKey) {
         Encryption ep = new Encryption();
         SQLDB db = new SQLDB();
         String SQL =
-                "INSERT INTO`" + GlobalValue.DB_PREFIX + TABLE_NAME
-                    + "(`username`, `password`, `recover`)"
-                + "VALUES"
-                    + "(`" + userName + "`, `" + ep.codeDES(passWord) + "`, `" + dataKey + "`);";
+                "INSERT INTO `" + GlobalValue.DB_PREFIX + TABLE_NAME + "`"
+                    + "( username, password, recover) VALUES"
+                    + "( '" + userName + "', '" + ep.encodeSHA512Hex(passWord) + "', '" + dateKey + "');";
         db.executeSQLUpdate(SQL);
     }
 
@@ -38,10 +37,10 @@ public class MainUser {
         String target = "password";
         String SQL =
                 "SELECT " + target
-                + "FROM" + TABLE_NAME
-                + "WHERE" + "username='" + userName + "'";
+                + " FROM " + GlobalValue.DB_PREFIX + TABLE_NAME
+                + " WHERE " + "username='" + userName + "';";
         String verify = db.executeSQLQuerySingleSQL(SQL,target);
-        if(passWord.equals(ep.decodeDES(verify))) {
+        if(ep.encodeSHA512Hex(passWord).equals(verify)) {
             GlobalValue.USER_LOGGED = true;
             GlobalValue.USER_NAME = userName;
             return true;
@@ -53,16 +52,24 @@ public class MainUser {
         Date time = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        String DateKey = sdf.format(time);
-        String Key = ep.encodeSHA512Hex(DateKey);
-
-        RecoverFile rf = new RecoverFile(Key);
+        String dataKey = sdf.format(time);
+        String recoverKey = ep.encodeSHA512Hex(dataKey);
+        System.out.println(recoverKey);
+        RecoverFile rf = new RecoverFile(recoverKey);
         rf.generateRecoverFile();
 
-        return Key;
+        return dataKey;
     }
 
-    //public boolean checkRecoverKey(String Key) {
-
-    //}
+    public boolean checkRecoverKey(String userName, String recoverKey) {
+        Encryption ep = new Encryption();
+        SQLDB db = new SQLDB();
+        String target = "recover";
+        String SQL =
+                "SELECT " + target
+                        + " FROM " + GlobalValue.DB_PREFIX + TABLE_NAME
+                        + " WHERE " + "username='" + userName + "';";
+        String dateKey = db.executeSQLQuerySingleSQL(SQL,target);
+        return ep.encodeSHA512Hex(dateKey).equals(recoverKey);
+    }
 }
