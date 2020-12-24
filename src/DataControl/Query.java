@@ -6,6 +6,11 @@ public class Query extends SQLDB{
 
     public void newTable(String TABLE_NAME) {
         newTableIntoMap(TABLE_NAME);
+        creatAccountDataTable(getIDByMap(TABLE_NAME));
+    }
+
+    public boolean checkTitleUser(String TABLE_NAME, String title) {
+       return title.equals(queryTitle(getIDByMap(TABLE_NAME), title));
     }
 
     public void addAccount(DCB data) {
@@ -32,9 +37,11 @@ public class Query extends SQLDB{
         return queryWholeMap();
     }
 
-    public void initGlobalTable(String sfName, String version) {
+    public void initGlobal(String sfName, String version) {
         createGlobalTable();
         newVersionIntoGlobal(sfName, version);
+        createMapTable();
+        checkInitialization(sfName, version);
     }
 
     public void resetAll() {

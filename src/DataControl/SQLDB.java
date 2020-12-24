@@ -82,14 +82,14 @@ public class SQLDB{
     }
 
     // 通用：删除数据表方法
-    public void dropDataTable(String TARGET) {
+    protected void dropDataTable(String TARGET) {
         String SQL =
                 "DROP TABLE IF EXISTS `" + DB_PREFIX + TARGET +"`;";
         executeSQLUpdate(SQL);
     }
 
     // 创建 表单映射表 方法
-    public void createMapTable() {
+    protected void createMapTable() {
         String SQL =
                 "CREATE TABLE IF NOT EXISTS `" + DB_PREFIX + "Map` ("
                         + "`id` INT UNSIGNED AUTO_INCREMENT,"
@@ -159,7 +159,7 @@ public class SQLDB{
             // 展开结果集数据库
             while(rs.next()){
                 // 通过字段检索
-                dataBack = rs.getString("id");
+                dataBack = rs.getString("tableName");
             }
             // 完成后关闭
             stmt.close();
@@ -268,7 +268,7 @@ public class SQLDB{
     protected ArrayList<DCB> queryData(int COUNT, String target) {
         String SQL =
                 "SELECT title, account, password, mark"
-                    + " FORM `" + DB_PREFIX + COUNT + "`"
+                    + " FROM `" + DB_PREFIX + COUNT + "`"
                     + " WHERE CONCAT(title, mark) LIKE '%" + target + "%';";
         return executeSQLQuery(COUNT, SQL);
     }
@@ -323,6 +323,13 @@ public class SQLDB{
         return dataBack;
     }
 
+    // 查询 目标 title 方法
+    protected String queryTitle(int COUNT, String title) {
+        String SQL = "SELECT title FROM " + DB_PREFIX + COUNT
+                + " WHERE title='" + title + "';";
+        return executeSQLQuerySingleSQL(SQL,"title");
+    }
+
     // 执行数据库数据读取操作 SQL 单数据专用
     public String executeSQLQuerySingleSQL(String SQL, String targetLabel) {
         String dataBack = null;
@@ -365,7 +372,7 @@ public class SQLDB{
                         + "`name` VARCHAR(40) NOT NULL DEFAULT '' COMMENT '软件名',"
                         + "`version` VARCHAR(40) NOT NULL DEFAULT '' COMMENT '版本号',"
                         + "`initialization` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '初始化状态',"
-                        + "PRIMARY KEY(`id`)"
+                        + "PRIMARY KEY(`name`)"
                         + ")ENGINE=InnoDB DEFAULT CHARSET=utf8;";
         executeSQLUpdate(SQL);
     }
@@ -380,7 +387,7 @@ public class SQLDB{
     }
 
     // 查询 初始化状态 方法
-    public void getInitialization(String sfName, String version) {
+    public void checkInitialization(String sfName, String version) {
         boolean dataBack = false;
         String SQL = "SELECT initialization FROM " + DB_PREFIX + "Global"
                 +" WHERE name='"+ sfName +"' AND version='" + version + "';";
@@ -415,4 +422,6 @@ public class SQLDB{
         }
         GlobalValue.INITIALIZATION  = dataBack;
     }
+
+
 }

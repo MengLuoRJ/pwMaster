@@ -47,7 +47,7 @@ public class MainUser {
         } else return false;
     }
 
-    public String generateRecoverCode() throws IOException {
+    public String generateRecoverCode() {
         Encryption ep = new Encryption();
         Date time = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -56,7 +56,11 @@ public class MainUser {
         String recoverKey = ep.encodeSHA512Hex(dataKey);
         System.out.println(recoverKey);
         RecoverFile rf = new RecoverFile(recoverKey);
-        rf.generateRecoverFile();
+        try {
+            rf.generateRecoverFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return dataKey;
     }

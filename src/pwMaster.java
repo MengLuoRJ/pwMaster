@@ -2,36 +2,39 @@
 import DataControl.*;
 import UserCenter.*;
 
-import java.io.IOException;
+import java.util.ArrayList;
 
 public class pwMaster {
+    static String SF_NAME = "pwMaster";
+    static String SF_VERSION = "1.0.0";
 
     public static void main(String[] args) {
 
-        // Encryption init
-        Encryption ep = new Encryption();
-
-        // SQL init
+        // SQL Init
         SQLDB sql = new SQLDB();
 
-        sql.createMapTable();
+        // Query Init
+        Query qr = new Query();
 
-        //sql.creatAccountDataTable("1");
-        //DCB data = new DCB("Baidu","www666","w6666","百度账号");
-        //sql.insertData("1",data);
-        //sql.dropDataTable("1");
-
-        // Main User service
+        // MainUser Init
         MainUser mUser = new MainUser();
-        mUser.creatMainUserDataTable();
-        String dateKey = "";
-        try {
-            dateKey = mUser.generateRecoverCode();
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        // Initialization Check
+        qr.checkInitialization(SF_NAME,SF_VERSION);
+        if(!GlobalValue.INITIALIZATION) {
+
+            // Main User Service Init
+            mUser.creatMainUserDataTable();
+            String dateKey = mUser.generateRecoverCode();
+            mUser.initMainUser("admin","admin123456",dateKey);
+
+            // Software Global Init
+            qr.initGlobal(SF_NAME, SF_VERSION);
+
         }
-        mUser.initMainUser("admin","admin123456",dateKey);
-        boolean S = mUser.loginMainUser("admin","admin123456");
+
+
+
 
     }
 }
