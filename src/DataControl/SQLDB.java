@@ -108,6 +108,14 @@ public class SQLDB{
         executeSQLUpdate(SQL);
     }
 
+    // 删除表 移出映射表 方法
+    protected void deleteTableFromMap(String TABLE_NAME) {
+        String SQL =
+                "DELETE FROM `" + DB_PREFIX + "Map`"
+                        + " WHERE tableName='" + TABLE_NAME + "';";
+        executeSQLUpdate(SQL);
+    }
+
     // 执行 表单 id 读取操作 SQL
     protected int getIDByMap(String TABLE_NAME) {
         int dataBack = -1;
@@ -277,7 +285,7 @@ public class SQLDB{
     protected ArrayList<DCB> queryWholeTable(int COUNT) {
         String SQL =
                 "SELECT title, account, password, mark"
-                        + " FORM `" + DB_PREFIX + COUNT + "`;";
+                        + " FROM `" + DB_PREFIX + COUNT + "`;";
         return executeSQLQuery(COUNT, SQL);
     }
 

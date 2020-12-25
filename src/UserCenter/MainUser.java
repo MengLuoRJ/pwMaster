@@ -65,15 +65,23 @@ public class MainUser {
         return dataKey;
     }
 
-    public boolean checkRecoverKey(String userName, String recoverKey) {
+    public boolean checkRecoverKey(String recoverKey) {
         Encryption ep = new Encryption();
         SQLDB db = new SQLDB();
         String target = "recover";
         String SQL =
-                "SELECT " + target
-                        + " FROM " + GlobalValue.DB_PREFIX + TABLE_NAME
-                        + " WHERE " + "username='" + userName + "';";
+                "SELECT " + target + " FROM " + GlobalValue.DB_PREFIX + TABLE_NAME +";";
         String dateKey = db.executeSQLQuerySingleSQL(SQL,target);
-        return ep.encodeSHA512Hex(dateKey).equals(recoverKey);
+        boolean check = ep.encodeSHA512Hex(dateKey).equals(recoverKey);
+        if(check){
+            target = "username";
+            SQL = "SELECT " + target + " FROM " + GlobalValue.DB_PREFIX + TABLE_NAME +";";
+            String data = db.executeSQLQuerySingleSQL(SQL,target);
+            GlobalValue.USER_LOGGED = true;
+            GlobalValue.USER_NAME = data;
+        }
+        return check;
     }
+
+
 }

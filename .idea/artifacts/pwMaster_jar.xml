@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="pwMaster:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/pwMaster_jar</output-path>
+    <root id="archive" name="pwMaster.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/out/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="pwMaster" />
+      <element id="extracted-dir" path="D:/CodingRuntime/Java/mysql-connector-java-8.0.22/mysql-connector-java-8.0.22.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/CodingRuntime/Java/commons-codec-1.15-bin/commons-codec-1.15/commons-codec-1.15.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

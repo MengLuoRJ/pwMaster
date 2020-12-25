@@ -1,17 +1,21 @@
 
 import DataControl.*;
 import UserCenter.*;
+import UI.*;
 
 import java.util.ArrayList;
 
 public class pwMaster {
-    static String SF_NAME = "pwMaster";
-    static String SF_VERSION = "1.0.0";
 
     public static void main(String[] args) {
 
+        // Software init info
+        GlobalValue.SF_NAME = "pwMaster";
+        GlobalValue.VERSION = "1.0.0";
+
         // SQL Init
         SQLDB sql = new SQLDB();
+        sql.initOnlineDB("XXX","XXX","XXX");
 
         // Query Init
         Query qr = new Query();
@@ -20,21 +24,20 @@ public class pwMaster {
         MainUser mUser = new MainUser();
 
         // Initialization Check
-        qr.checkInitialization(SF_NAME,SF_VERSION);
+        qr.checkInitialization(GlobalValue.SF_NAME,GlobalValue.VERSION);
+
         if(!GlobalValue.INITIALIZATION) {
 
-            // Main User Service Init
             mUser.creatMainUserDataTable();
-            String dateKey = mUser.generateRecoverCode();
-            mUser.initMainUser("admin","admin123456",dateKey);
+            GlobalValue.DATA_KEY = mUser.generateRecoverCode();
+            fristLogin fl = new fristLogin();
 
             // Software Global Init
-            qr.initGlobal(SF_NAME, SF_VERSION);
+            qr.initGlobal(GlobalValue.SF_NAME, GlobalValue.VERSION);
 
+        } else {
+            Login lg = new Login();
         }
-
-
-
 
     }
 }

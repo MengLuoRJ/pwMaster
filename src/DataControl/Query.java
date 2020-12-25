@@ -9,7 +9,12 @@ public class Query extends SQLDB{
         creatAccountDataTable(getIDByMap(TABLE_NAME));
     }
 
-    public boolean checkTitleUser(String TABLE_NAME, String title) {
+    public void deleteTable(String TABLE_NAME) {
+        dropDataTable(""+getIDByMap(TABLE_NAME));
+        deleteTableFromMap(TABLE_NAME);
+    }
+
+    public boolean checkTitleUsed(String TABLE_NAME, String title) {
        return title.equals(queryTitle(getIDByMap(TABLE_NAME), title));
     }
 
@@ -49,6 +54,8 @@ public class Query extends SQLDB{
         for (TCB tcb : tableTarget) {
             dropDataTable(Integer.toString(tcb.getID()));
         }
+        dropDataTable("map");
+        dropDataTable("mainuser");
         dropDataTable("Admin");
         dropDataTable("Global");
         GlobalValue.INITIALIZATION = false;
