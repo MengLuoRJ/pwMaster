@@ -15,7 +15,7 @@ public class pwMaster {
 
         // SQL Init
         SQLDB sql = new SQLDB();
-        sql.initOnlineDB("XXX","XXX","XXX");
+        sql.initOnlineDB("user","password","db");
 
         // Query Init
         Query qr = new Query();
@@ -29,11 +29,7 @@ public class pwMaster {
         if(!GlobalValue.INITIALIZATION) {
 
             mUser.creatMainUserDataTable();
-            GlobalValue.DATA_KEY = mUser.generateRecoverCode();
             fristLogin fl = new fristLogin();
-
-            // Software Global Init
-            qr.initGlobal(GlobalValue.SF_NAME, GlobalValue.VERSION);
 
         } else {
             Login lg = new Login();

@@ -263,10 +263,11 @@ public class SQLDB{
 
     // 更新 账号数据 方法
     protected void updateData(int COUNT, DCB data) {
+
         String SQL =
-                "UPDATE `" + DB_PREFIX + COUNT + "` SET "
+                "UPDATE " + DB_PREFIX + COUNT + " SET "
                         + "account='" + data.getAccount() + "',"
-                        + "password'" + data.getPassword() + "',"
+                        + "password='" + data.getPassword() + "',"
                         + "mark='" + data.getMark() + "'"
                         + " WHERE title='" + data.getTitle() + "';";
         executeSQLUpdate(SQL);
