@@ -8,7 +8,7 @@ public class pwMaster {
         GlobalValue.VERSION = "1.0.0";
         // SQL Init
         SQLDB sql = new SQLDB();
-        sql.initOnlineDB("pw_master","pwMaster2020","mysql.aiur.tech");
+        sql.initOnlineDB("username","password","database");
         // Query Init
         Query qr = new Query();
         // MainUser Init

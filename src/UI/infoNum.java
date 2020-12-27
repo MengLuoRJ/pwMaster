@@ -22,7 +22,7 @@ public class infoNum {
         for (DCB datum : data) {
             this.infos.add(new info(datum.getTitle(), datum.getAccount(), datum.getPassword(), datum.getMark(), pageName));
         }
-        System.out.println(infos.get(0).pageName);
+
         return infos;
     }
     public ArrayList<info> queryInfo(ArrayList<DCB> data){

@@ -45,9 +45,10 @@ public class mainClass {
             pageList.getPageJPanel().setPreferredSize(new Dimension(150, (i+1)*60));
             pageList.getPageJPanel().add(pageBtn.get(i));
         }
-        pageButton.nowPage = pageBtn.get(0).getText();
+
         infoNum InfoNum = new infoNum();
         if(pageBtn.size()!=0){
+            pageButton.nowPage = pageBtn.get(0).getText();
             InfoNum.refresh(bodyPart,InfoNum.setInfoJPanels(pageButton.nowPage));
         }
         f.add(top.setTop(bodyPart,pageList,pageBtn, pageB),BorderLayout.NORTH);
