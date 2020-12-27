@@ -60,8 +60,7 @@ public class Query extends SQLDB{
         }
         dropDataTable("map");
         dropDataTable("mainuser");
-        dropDataTable("Admin");
-        dropDataTable("Global");
+        dropDataTable("global");
         GlobalValue.INITIALIZATION = false;
         GlobalValue.USER_LOGGED = false;
     }

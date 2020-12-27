@@ -16,14 +16,14 @@ public class info {
     String pageName;
     String Title;
 
-    public info(String name,String account,String password,String tips,String pageName){
+    public info(String name,String account,String password,String tips,String PageNames){
         this.setName(name);
         this.setAccount(account);
         this.setPassword(password);
         this.setTips(tips);
         this.setOther();
         this.setTitle(name);
-        this.setPageName(pageName);
+        this.setPageName(PageNames);
     }
 
     public void setName(String name) {

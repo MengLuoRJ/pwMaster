@@ -29,18 +29,7 @@ public class delPages {
         okay.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 if(inputArea.getText().equals("")){
-                    BaseFrame nameError = new BaseFrame("name error",500, 200);
-                    nameError.setResizable(false);
-                    JLabel tipsName = new JLabel("请输入页面名");
-                    JButton okay2 = new JButton("确认");
-                    tipsName.setBounds(178, 49, 400, 50);
-                    tipsName.setFont(new Font(null,Font.BOLD,20));
-                    okay2.setBounds(215, 94, 50, 30);
-                    okay2.addActionListener(new ActionListener(){
-                        public void actionPerformed(ActionEvent e){
-                            nameError.dispose();
-                        }
-                    });
+                   new Error("请输入页面名");
                 }
                 else{
                     qr.deleteTable(inputArea.getText());

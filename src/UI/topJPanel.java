@@ -1,5 +1,8 @@
 package UI;
 
+import DataControl.DCB;
+import DataControl.Query;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -9,8 +12,9 @@ import javax.swing.*;
 import javax.swing.plaf.DimensionUIResource;
 
 public class topJPanel {
-    ArrayList<JButton> pageBtn = new  ArrayList<JButton>();
-    ArrayList<info> infoList = new ArrayList<info>();
+    Query qr = new Query();
+    ArrayList<JButton> pageBtn = new ArrayList<>();
+    ArrayList<info> infoList = new ArrayList<>();
     public void setInfoList(ArrayList<info> infoList) {
         this.infoList = infoList;
     }
@@ -23,6 +27,7 @@ public class topJPanel {
     public ArrayList<JButton> getPageBtn() {
         return pageBtn;
     }
+
     public JPanel setTop(bodyClass bodyPart, pageClass pageC, ArrayList<JButton> alBtn, pageButton pageB) {
         JPanel top = new JPanel();
         top.setPreferredSize(new Dimension(830, 30));
@@ -48,35 +53,39 @@ public class topJPanel {
         JButton Btn1 = new JButton("搜素");
         Btn1.setBounds(655, 0, 80, 30);
 
-        
 
         /*按钮一监听事件*/
         Btn1.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
+                infoNum INF = new infoNum();
+                INF.refresh(bodyPart,INF.queryInfo(qr.queryAccount(pageButton.nowPage,check.getText())));
+                for (DCB data: qr.queryAccount(pageButton.nowPage,check.getText())){
+                    System.out.println(data.getTitle());
+                }
 
             }
         });
-        /************************************************/
 
         top.add(Btn1);
 
         JButton Btn2 = new JButton("重置");
         Btn2.setBounds(735, 0, 80, 30);
 
-        /*按钮二监听事件*/
+        // 按钮二监听事件
         Btn2.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-
+                infoNum INF = new infoNum();
+                check.setText("请输入您要搜索的内容");
+                INF.refresh(bodyPart,INF.setInfoJPanels(pageButton.nowPage));
             }
         });
-        /************************************************/
 
         top.add(Btn2);
 
-        /**菜单具体内容**/
-        /*菜单F1*/
+        // 菜单具体内容
+        // 菜单F1
         JMenuItem addPage = new JMenuItem("增加分页");
         addPage.setPreferredSize(new DimensionUIResource(150, 20));
         addPage.addActionListener(new ActionListener(){

@@ -61,7 +61,6 @@ public class MainUser {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return dataKey;
     }
 
@@ -82,6 +81,4 @@ public class MainUser {
         }
         return check;
     }
-
-
 }
