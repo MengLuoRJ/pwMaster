@@ -14,6 +14,10 @@ public class Query extends SQLDB{
         deleteTableFromMap(TABLE_NAME);
     }
 
+    public boolean checkTableUsed(String TABLE_NAME) {
+        return TABLE_NAME.equals(queryTable(getIDByMap(TABLE_NAME)));
+    }
+
     public boolean checkTitleUsed(String TABLE_NAME, String title) {
        return title.equals(queryTitle(getIDByMap(TABLE_NAME), title));
     }

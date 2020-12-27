@@ -37,7 +37,7 @@ public class titleList {
        tipsLabel.setOpaque(true);
        this.title.add(tipsLabel);
 
-       JLabel otherLabel = new JLabel("   ", null ,SwingConstants.LEFT);
+       JLabel otherLabel = new JLabel("编辑", null ,SwingConstants.LEFT);
        otherLabel.setBounds(535,1,80,31);
        otherLabel.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 1, Color.GRAY));
        otherLabel.setBackground(Color.white);

@@ -104,6 +104,24 @@ public class addInfom {
                             passError.add(tipsPass);
                             passError.showMe(true);
                             passError.add(okay2);
+                        } else if(qr.checkTitleUsed(pageButton.nowPage,nameArea.getText())) {
+                            BaseFrame nameError = new BaseFrame("错误", 500, 200);
+                            nameError.setResizable(false);
+                            JLabel tipsPass = new JLabel("名称已存在");
+                            JButton okay2 = new JButton("ok");
+                            tipsPass.setBounds(178, 49, 400, 50);
+                            tipsPass.setFont(new Font(null, Font.BOLD, 20));
+                            okay2.setBounds(215, 94, 50, 30);
+                            okay2.addActionListener(new ActionListener() {
+                                public void actionPerformed(ActionEvent e) {
+                                    nameError.dispose();
+                                }
+                            });
+                            nameError.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            nameError.add(tipsPass);
+                            nameError.showMe(true);
+                            nameError.add(okay2);
+
                         } else {
                             qr.addAccount(new DCB(
                                     pageButton.nowPage,

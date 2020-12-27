@@ -15,7 +15,7 @@ public class pwMaster {
 
         // SQL Init
         SQLDB sql = new SQLDB();
-        sql.initOnlineDB("user","password","db");
+        sql.initOnlineDB("user","pass","db");
 
         // Query Init
         Query qr = new Query();

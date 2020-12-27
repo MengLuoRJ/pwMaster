@@ -190,6 +190,13 @@ public class SQLDB{
         return dataBack;
     }
 
+    // 查询 目标 map 方法
+    protected String queryTable(int COUNT) {
+        String SQL = "SELECT tableName FROM " + DB_PREFIX + "Map "
+                + " WHERE id='" + COUNT + "';";
+        return executeSQLQuerySingleSQL(SQL,"tableName");
+    }
+
     // 查询 所有表单 SQL
     protected ArrayList<TCB> queryWholeMap() {
         ArrayList<TCB> dataBack = new ArrayList<>();

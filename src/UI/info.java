@@ -12,7 +12,7 @@ public class info {
     JTextArea Account = new JTextArea();
     JTextArea Password = new JTextArea();
     JTextArea Tips = new JTextArea();
-    JButton Other = new JButton("改");
+    JButton Other = new JButton("修改");
     String pageName;
     String Title;
 
